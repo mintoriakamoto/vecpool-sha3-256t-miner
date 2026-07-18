@@ -37,5 +37,8 @@ Notes:
   binary serves both — only the pool URL/port changes.
 - Tesla V100 note: passively cooled cards throttle hard without case airflow
   (watch nvidia-smi temperature; 83C+ costs more than half the hashrate).
-  Works with 1660ti 6gb, 3060 12gb and cmp100-210 16gb flashed with v100 bios and 2699v4 cpu
+- Supported GPUs: the binary ships sm_70/75/86/89 code, so Volta, Turing,
+  Ampere and Ada cards work out of the box.
+  Works with 1660ti 6gb, 2080ti 11gb, 3060 12gb and cmp100-210 16gb flashed with v100 bios.
+- CPU mode (-cpu) runs on any x86_64 processor. Works with 2699v4 cpu and 9950x cpu.
   Links btc3 wallet : https://github.com/PinkStarrySky/BitcoinIII-Core/releases/tag/v29.1.1
