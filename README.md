@@ -25,6 +25,10 @@ Run examples:
   # CPU mode
   ./vecpool-miner -cpu -a sha3-256t -o stratum+tcp://POOL:PORT -u WALLET.worker -p x
 
+  # CPU miner with SIMD auto-detection (source in cpu-miner/, build with make)
+  # picks AVX-512 (8-way) on 9950x, AVX2 (4-way) on 2699v4 / 7700k, scalar otherwise
+  ./cpu-miner/vecpool-cpu-miner -a sha3-256t -o stratum+tcp://POOL:PORT -u WALLET.worker -p x
+
 Diagnostics:
   ./vecpool-miner --selftest   # replays a known pool-accepted share through
                                # the header builder, host hash and GPU kernel
@@ -37,5 +41,14 @@ Notes:
   binary serves both — only the pool URL/port changes.
 - Tesla V100 note: passively cooled cards throttle hard without case airflow
   (watch nvidia-smi temperature; 83C+ costs more than half the hashrate).
-  Works with 1660ti 6gb, 3060 12gb and cmp100-210 16gb flashed with v100 bios and 2699v4 cpu
+- Supported GPUs: the binary ships sm_70/75/86/89 code, so Volta, Turing,
+  Ampere and Ada cards work out of the box.
+  Works with 1660ti 6gb, 2080ti 11gb, 3060 12gb and cmp100-210 16gb flashed with v100 bios.
+- CPU mode (-cpu) runs on any x86_64 processor. Works with 2699v4 cpu and 9950x cpu.
+- cpu-miner/ contains a from-source CPU miner with runtime SIMD dispatch:
+  one binary auto-detects the CPU at startup via CPUID and picks AVX-512
+  (8 nonces per iteration, e.g. Ryzen 9950x), AVX2 (4-way, e.g. Xeon 2699v4
+  or i7-7700k) or scalar — no flags needed, and no illegal-instruction
+  crashes on older chips. See cpu-miner/README.md for build, --selftest and
+  --bench details.
   Links btc3 wallet : https://github.com/PinkStarrySky/BitcoinIII-Core/releases/tag/v29.1.1
